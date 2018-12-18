@@ -1,0 +1,13 @@
+{  
+   "Id":49,
+   "type":2,
+   "title":"bif-ws18-gpr1",
+   "description":"Template for BIF-WS18-GPR1",
+   "administrator_only":false,
+   "image":"",
+   "repository":{  
+      "url":"https://github.com/LisaKirchhofer/portainer-templates.git",
+      "stackfile":"docker-compose-gpr1.yml"
+   },
+   "platform":"linux"
+}

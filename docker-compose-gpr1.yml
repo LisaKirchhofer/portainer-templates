@@ -17,8 +17,8 @@ services:
       - INTERNAL_GIT_USER_FILE=/run/secrets/bif-gpr1-internal-git-user
       - JENKINS_USER_FILE=/run/secrets/bif-gpr1-jenkins-user
       - JENKINS_PASSWORD_FILE=/run/secrets/bif-gpr1-jenkins-password
-      - JENKINS_OPTS=--prefix=/bif-ws18-gpr1/jenkins
-      - NGINX_PROXY_SUBDIRECTORY=bif-ws18-gpr1/jenkins
+      - JENKINS_OPTS=--prefix=/${COURSE}/jenkins
+      - NGINX_PROXY_SUBDIRECTORY=${COURSE}/jenkins
       - VIRTUAL_PORT=8080
     secrets:
       - bif-gpr1-internal-git-server-public-key-dsa
@@ -53,8 +53,8 @@ services:
       - INTERNAL_GIT_USER_FILE=/run/secrets/bif-gpr1-internal-git-user
       - JENKINS_USER_FILE=/run/secrets/bif-gpr1-jenkins-user
       - JENKINS_PASSWORD_FILE=/run/secrets/bif-gpr1-jenkins-password
-      - COURSE=BIF-WS18-GPR1
-      - JENKINS_SUBDIRECTORY=bif-ws18-gpr1/jenkins
+      - COURSE=${COURSE}
+      - JENKINS_SUBDIRECTORY=${COURSE}/jenkins
     secrets:
       - bif-gpr1-internal-git-server-public-key-dsa
       - bif-gpr1-internal-git-server-public-key-rsa
@@ -118,8 +118,8 @@ services:
       - INTERNAL_GIT_USER_PUBLIC_KEY_FILE=/run/secrets/bif-gpr1-internal-git-user-public-key
       - INTERNAL_GIT_USER_FILE=/run/secrets/bif-gpr1-internal-git-user
       - INTERNAL_GIT_PASSWORD_FILE=/run/secrets/bif-gpr1-internal-git-password
-      - JENKINS_SUBDIRECTORY=bif-ws18-gpr1/jenkins
-      - NGINX_PROXY_SUBDIRECTORY=bif-ws18-gpr1/gitblit
+      - JENKINS_SUBDIRECTORY=${COURSE}/jenkins
+      - NGINX_PROXY_SUBDIRECTORY=${COURSE}/gitblit
       - VIRTUAL_PORT=8080
     secrets:
       - bif-gpr1-internal-git-server-private-key-dsa
@@ -157,9 +157,9 @@ services:
     environment:
       - POSTGRES_USER_FILE=/run/secrets/bif-gpr1-postgres-user
       - POSTGRES_PASSWORD_FILE=/run/secrets/bif-gpr1-postgres-password
-      - NGINX_PROXY_SUBDIRECTORY=bif-ws18-gpr1/assignment
+      - NGINX_PROXY_SUBDIRECTORY=${COURSE}/assignment
       - VIRTUAL_PROTO=fastcgi
-      - VIRTUAL_SUBDIRECTORY=bif-ws18-gpr1-assignment
+      - VIRTUAL_SUBDIRECTORY=${COURSE}-assignment
     secrets:
       - bif-gpr1-postgres-user
       - bif-gpr1-postgres-password
