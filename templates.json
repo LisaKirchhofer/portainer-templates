@@ -1,40 +1,22 @@
-{  
-   "Type":2,
-   "Name":"BIF-GPR",
-   "Title":"BIF-GPR",
-   "Description":"Template for BIF-GPR1",
-   "Categories":[  
-
-   ],
-   "Platform":"linux",
-   "Logo":"https://www.technikum-wien.at/sites/default/files/logo-300x160.png",
-   "Image":"",
-   "Command":"",
-   "Network":"",
-   "Privileged":false,
-   "Interactive":false,
-   "RestartPolicy":"always",
-   "Labels":[  
-
-   ],
-   "Repository":{  
+{
+   "type":2,
+   "title":"BIF-GPR",
+   "description":"Template for BIF-WS18-GPR1",
+   "administrator_only":false,
+   "image":"",
+   "repository":{  
       "url":"https://git-inf.technikum-wien.at/UEB-INF/docker-images.git",
-      "stackfile":"docker-compose-bif-gpr1.yml"
+      "stackfile":"docker-compose-bif-ws18-gpr1.yml"
    },
-   "Env":[  
+   "name":"BIF-GPR",
+   "logo":"https://www.technikum-wien.at/sites/default/files/logo-300x160.png",
+   "env":[  
       {  
          "name":"COURSE",
          "label":"Course",
          "description":"Please enter the year",
-         "default":"bif-ws??-gpr1",
-         "type":2,
-         "value":"bif-ws??-gpr1"
+         "default":"bif-ws??-gpr1"
       }
    ],
-   "Ports":[  
-
-   ],
-   "Volumes":[  
-
-   ]
+   "platform":"linux"
 }
