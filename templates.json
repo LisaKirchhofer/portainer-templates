@@ -1,11 +1,12 @@
 {
-  "type": 1,
-  "title": "Nginx",
-  "description": "High performance web server",
-  "logo": "https://cloudinovasi.id/assets/img/logos/nginx.png",
-  "image": "nginx:latest",
-  "ports": [
-    "8080:80/tcp",
-    "443/tcp"
-  ]
+   "type":2,
+   "title":"BIF-GPR1",
+   "description":"Template for BIF-GPR1",
+   "administrator_only":false,
+   "image":"",
+   "repository":{
+      "url":"https://github.com/LisaKirchhofer/portainer-templates.git",
+      "stackfile":"docker-compose-bif-gpr1.yml"
+   },
+   "platform":"linux"
 }
