@@ -1,0 +1,218 @@
+version: '3.1'
+ 
+services:
+
+  jenkins-master:
+    image: jenkins-master:dev
+    expose:
+      - 8080
+    environment:
+      - INTERNAL_GIT_SERVER_PUBLIC_KEY_DSA_FILE=/run/secrets/bif-swe2-internal-git-server-public-key-dsa
+      - INTERNAL_GIT_SERVER_PUBLIC_KEY_RSA_FILE=/run/secrets/bif-swe2-internal-git-server-public-key-rsa
+      - SSH_SLAVE_SERVER_PUBLIC_KEY_RSA_FILE=/run/secrets/bif-swe2-ssh-slave-server-public-key-rsa
+      - INTERNAL_GIT_USER_PRIVATE_KEY_FILE=/run/secrets/bif-swe2-internal-git-user-private-key
+      - SSH_SLAVE_USER_PRIVATE_KEY_FILE=/run/secrets/bif-swe2-ssh-slave-user-private-key
+      - INTERNAL_GIT_USER_FILE=/run/secrets/bif-swe2-internal-git-user
+      - JENKINS_USER_FILE=/run/secrets/bif-swe2-jenkins-user
+      - JENKINS_PASSWORD_FILE=/run/secrets/bif-swe2-jenkins-password
+      - JENKINS_OPTS=--prefix=/${COURSE}/jenkins
+      - NGINX_PROXY_SUBDIRECTORY=${COURSE}/jenkins
+      - VIRTUAL_PORT=8080
+    secrets:
+      - bif-swe2-internal-git-server-public-key-dsa
+      - bif-swe2-internal-git-server-public-key-rsa
+      - bif-swe2-ssh-slave-server-public-key-rsa
+      - bif-swe2-internal-git-user-private-key
+      - bif-swe2-ssh-slave-user-private-key
+      - bif-swe2-internal-git-user
+      - bif-swe2-jenkins-user
+      - bif-swe2-jenkins-password
+    networks:
+      - course-network
+    volumes:
+      - jenkins-master-home-data:/var/jenkins_home
+    depends_on:
+      - "jenkins-job-builder"
+      - "jenkins-slave"
+      - "gitblit"
+
+  jenkins-job-builder:
+    image: jenkins-job-builder:dev
+    expose:
+      - 22
+    environment:
+      - INTERNAL_GIT_SERVER_PUBLIC_KEY_DSA_FILE=/run/secrets/bif-swe2-internal-git-server-public-key-dsa
+      - INTERNAL_GIT_SERVER_PUBLIC_KEY_RSA_FILE=/run/secrets/bif-swe2-internal-git-server-public-key-rsa
+      - SSH_SLAVE_SERVER_PRIVATE_KEY_RSA_FILE=/run/secrets/bif-swe2-ssh-slave-server-private-key-rsa
+      - SSH_SLAVE_SERVER_PUBLIC_KEY_RSA_FILE=/run/secrets/bif-swe2-ssh-slave-server-public-key-rsa
+      - EXTERNAL_GIT_USER_PRIVATE_KEY_FILE=/run/secrets/external-git-user-private-key
+      - INTERNAL_GIT_USER_PRIVATE_KEY_FILE=/run/secrets/bif-swe2-internal-git-user-private-key
+      - SSH_SLAVE_USER_PUBLIC_KEY_FILE=/run/secrets/bif-swe2-ssh-slave-user-public-key
+      - INTERNAL_GIT_USER_FILE=/run/secrets/bif-swe2-internal-git-user
+      - JENKINS_USER_FILE=/run/secrets/bif-swe2-jenkins-user
+      - JENKINS_PASSWORD_FILE=/run/secrets/bif-swe2-jenkins-password
+      - COURSE=${COURSE}
+      - JENKINS_SUBDIRECTORY=${COURSE}/jenkins
+    secrets:
+      - bif-swe2-internal-git-server-public-key-dsa
+      - bif-swe2-internal-git-server-public-key-rsa
+      - bif-swe2-ssh-slave-server-private-key-rsa
+      - bif-swe2-ssh-slave-server-public-key-rsa
+      - external-git-user-private-key
+      - bif-swe2-internal-git-user-private-key
+      - bif-swe2-ssh-slave-user-public-key
+      - bif-swe2-internal-git-user
+      - bif-swe2-jenkins-user
+      - bif-swe2-jenkins-password
+    networks:
+      - course-network
+    depends_on:
+      - "gitblit"
+
+  jenkins-slave:
+    image: jenkins-slave-build-essential:dev
+    expose:
+      - 22
+    environment:
+      - INTERNAL_GIT_SERVER_PUBLIC_KEY_DSA_FILE=/run/secrets/bif-swe2-internal-git-server-public-key-dsa
+      - INTERNAL_GIT_SERVER_PUBLIC_KEY_RSA_FILE=/run/secrets/bif-swe2-internal-git-server-public-key-rsa
+      - SSH_SLAVE_SERVER_PRIVATE_KEY_RSA_FILE=/run/secrets/bif-swe2-ssh-slave-server-private-key-rsa
+      - SSH_SLAVE_SERVER_PUBLIC_KEY_RSA_FILE=/run/secrets/bif-swe2-ssh-slave-server-public-key-rsa
+      - EXTERNAL_GIT_USER_PRIVATE_KEY_FILE=/run/secrets/external-git-user-private-key
+      - INTERNAL_GIT_USER_PRIVATE_KEY_FILE=/run/secrets/bif-swe2-internal-git-user-private-key
+      - SSH_SLAVE_USER_PUBLIC_KEY_FILE=/run/secrets/bif-swe2-ssh-slave-user-public-key
+      - INTERNAL_GIT_USER_FILE=/run/secrets/bif-swe2-internal-git-user
+      - POSTGRES_USER_FILE=/run/secrets/bif-swe2-postgres-user
+      - POSTGRES_PASSWORD_FILE=/run/secrets/bif-swe2-postgres-password
+    secrets:
+      - bif-swe2-internal-git-server-public-key-dsa
+      - bif-swe2-internal-git-server-public-key-rsa
+      - bif-swe2-ssh-slave-server-private-key-rsa
+      - bif-swe2-ssh-slave-server-public-key-rsa
+      - external-git-user-private-key
+      - bif-swe2-internal-git-user-private-key
+      - bif-swe2-ssh-slave-user-public-key
+      - bif-swe2-internal-git-user
+      - bif-swe2-postgres-user
+      - bif-swe2-postgres-password
+    networks:
+      - course-network
+    volumes:
+      - jenkins-slave-home-data:/home/jenkins
+      - jenkins-slave-workspace-custom-data:/workspace-custom
+    depends_on:
+      - "gitblit"
+  
+  gitblit:
+    image: gitblit:dev
+    expose:
+      - 8080
+      - 29418
+    environment:
+      - INTERNAL_GIT_SERVER_PRIVATE_KEY_DSA_FILE=/run/secrets/bif-swe2-internal-git-server-private-key-dsa
+      - INTERNAL_GIT_SERVER_PRIVATE_KEY_RSA_FILE=/run/secrets/bif-swe2-internal-git-server-private-key-rsa
+      - INTERNAL_GIT_USER_PUBLIC_KEY_FILE=/run/secrets/bif-swe2-internal-git-user-public-key
+      - INTERNAL_GIT_USER_FILE=/run/secrets/bif-swe2-internal-git-user
+      - INTERNAL_GIT_PASSWORD_FILE=/run/secrets/bif-swe2-internal-git-password
+      - JENKINS_SUBDIRECTORY=${COURSE}/jenkins
+      - NGINX_PROXY_SUBDIRECTORY=${COURSE}/gitblit
+      - VIRTUAL_PORT=8080
+    secrets:
+      - bif-swe2-internal-git-server-private-key-dsa
+      - bif-swe2-internal-git-server-private-key-rsa
+      - bif-swe2-internal-git-user-public-key
+      - bif-swe2-internal-git-user
+      - bif-swe2-internal-git-password
+    networks:
+      - course-network
+    volumes:
+      - gitblit-repository-data:/opt/gitblit-data/gitblit-repositories
+
+  database:
+    image: database:dev
+    expose:
+      - 5432
+    environment: 
+      - POSTGRES_USER_FILE=/run/secrets/bif-swe2-postgres-user
+      - POSTGRES_PASSWORD_FILE=/run/secrets/bif-swe2-postgres-password
+      - POSTGRES_DB=Abgabe
+    secrets:
+      - bif-swe2-postgres-password
+      - bif-swe2-postgres-user
+    networks:
+      - course-network
+    volumes:
+      - database-data:/var/lib/postgresql/data
+
+  application:
+    image: application:dev
+    expose:
+      - 9000
+    environment:
+      - POSTGRES_USER_FILE=/run/secrets/bif-swe2-postgres-user
+      - POSTGRES_PASSWORD_FILE=/run/secrets/bif-swe2-postgres-password
+      - NGINX_PROXY_SUBDIRECTORY=${COURSE}/assignment
+      - VIRTUAL_PROTO=fastcgi
+      - VIRTUAL_SUBDIRECTORY=${COURSE}-assignment
+    secrets:
+      - bif-swe2-postgres-user
+      - bif-swe2-postgres-password
+    networks:
+      - course-network
+    volumes:
+      - gitblit-repository-data:/gitblit-repositories
+    depends_on:
+      - "database"
+ 
+secrets:
+  bif-swe2-internal-git-server-private-key-dsa:
+    external: true
+  bif-swe2-internal-git-server-public-key-dsa:
+    external: true
+  bif-swe2-internal-git-server-private-key-rsa:
+    external: true
+  bif-swe2-internal-git-server-public-key-rsa:
+    external: true
+  bif-swe2-ssh-slave-server-private-key-rsa:
+    external: true
+  bif-swe2-ssh-slave-server-public-key-rsa:
+    external: true
+  external-git-user-private-key:
+    external: true
+  bif-swe2-internal-git-user-private-key:
+    external: true
+  bif-swe2-internal-git-user-public-key:
+    external: true
+  bif-swe2-ssh-slave-user-private-key:
+    external: true
+  bif-swe2-ssh-slave-user-public-key:
+    external: true
+  bif-swe2-internal-git-user:
+    external: true
+  bif-swe2-internal-git-password:
+    external: true
+  bif-swe2-postgres-user:
+    external: true
+  bif-swe2-postgres-password:
+    external: true
+  bif-swe2-jenkins-user:
+    external: true
+  bif-swe2-jenkins-password:
+    external: true
+
+networks:
+  course-network:
+     driver: overlay
+
+volumes:
+  jenkins-master-home-data:
+    driver: local
+  jenkins-slave-home-data:
+    driver: local
+  jenkins-slave-workspace-custom-data:
+    driver: local
+  gitblit-repository-data:
+    driver: local
+  database-data:
+    driver: local
+

@@ -4,8 +4,6 @@ services:
 
   jenkins-master:
     image: jenkins-master:dev
-#    ports:
-#      - 8080
     expose:
       - 8080
     environment:
@@ -107,8 +105,6 @@ services:
   
   gitblit:
     image: gitblit:dev
-#    ports:
-#      - 8080
     expose:
       - 8080
       - 29418
@@ -150,8 +146,6 @@ services:
 
   application:
     image: application:dev
-#    ports:
-#      - 9000
     expose:
       - 9000
     environment:
