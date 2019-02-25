@@ -151,6 +151,7 @@ services:
     environment:
       - POSTGRES_USER_FILE=/run/secrets/bif-swe2-postgres-user
       - POSTGRES_PASSWORD_FILE=/run/secrets/bif-swe2-postgres-password
+      - JENKINS_SUBDIRECTORY=${COURSE}/jenkins
       - NGINX_PROXY_SUBDIRECTORY=${COURSE}/assignment
       - VIRTUAL_PROTO=fastcgi
       - VIRTUAL_SUBDIRECTORY=${COURSE}-assignment
