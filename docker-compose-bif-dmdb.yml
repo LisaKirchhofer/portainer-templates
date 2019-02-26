@@ -41,27 +41,19 @@ services:
     expose:
       - 22
     environment:
-      - INTERNAL_GIT_SERVER_PUBLIC_KEY_DSA_FILE=/run/secrets/bif-dmdb-internal-git-server-public-key-dsa
-      - INTERNAL_GIT_SERVER_PUBLIC_KEY_RSA_FILE=/run/secrets/bif-dmdb-internal-git-server-public-key-rsa
       - SSH_SLAVE_SERVER_PRIVATE_KEY_RSA_FILE=/run/secrets/bif-dmdb-ssh-slave-server-private-key-rsa
       - SSH_SLAVE_SERVER_PUBLIC_KEY_RSA_FILE=/run/secrets/bif-dmdb-ssh-slave-server-public-key-rsa
       - EXTERNAL_GIT_USER_PRIVATE_KEY_FILE=/run/secrets/external-git-user-private-key
-      - INTERNAL_GIT_USER_PRIVATE_KEY_FILE=/run/secrets/bif-dmdb-internal-git-user-private-key
       - SSH_SLAVE_USER_PUBLIC_KEY_FILE=/run/secrets/bif-dmdb-ssh-slave-user-public-key
-      - INTERNAL_GIT_USER_FILE=/run/secrets/bif-dmdb-internal-git-user
       - JENKINS_USER_FILE=/run/secrets/bif-dmdb-jenkins-user
       - JENKINS_PASSWORD_FILE=/run/secrets/bif-dmdb-jenkins-password
       - COURSE=${COURSE}
       - JENKINS_SUBDIRECTORY=${COURSE}/jenkins
     secrets:
-      - bif-dmdb-internal-git-server-public-key-dsa
-      - bif-dmdb-internal-git-server-public-key-rsa
       - bif-dmdb-ssh-slave-server-private-key-rsa
       - bif-dmdb-ssh-slave-server-public-key-rsa
       - external-git-user-private-key
-      - bif-dmdb-internal-git-user-private-key
       - bif-dmdb-ssh-slave-user-public-key
-      - bif-dmdb-internal-git-user
       - bif-dmdb-jenkins-user
       - bif-dmdb-jenkins-password
     networks:

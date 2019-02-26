@@ -41,27 +41,19 @@ services:
     expose:
       - 22
     environment:
-      - INTERNAL_GIT_SERVER_PUBLIC_KEY_DSA_FILE=/run/secrets/bif-gpr1-internal-git-server-public-key-dsa
-      - INTERNAL_GIT_SERVER_PUBLIC_KEY_RSA_FILE=/run/secrets/bif-gpr1-internal-git-server-public-key-rsa
       - SSH_SLAVE_SERVER_PRIVATE_KEY_RSA_FILE=/run/secrets/bif-gpr1-ssh-slave-server-private-key-rsa
       - SSH_SLAVE_SERVER_PUBLIC_KEY_RSA_FILE=/run/secrets/bif-gpr1-ssh-slave-server-public-key-rsa
       - EXTERNAL_GIT_USER_PRIVATE_KEY_FILE=/run/secrets/external-git-user-private-key
-      - INTERNAL_GIT_USER_PRIVATE_KEY_FILE=/run/secrets/bif-gpr1-internal-git-user-private-key
       - SSH_SLAVE_USER_PUBLIC_KEY_FILE=/run/secrets/bif-gpr1-ssh-slave-user-public-key
-      - INTERNAL_GIT_USER_FILE=/run/secrets/bif-gpr1-internal-git-user
       - JENKINS_USER_FILE=/run/secrets/bif-gpr1-jenkins-user
       - JENKINS_PASSWORD_FILE=/run/secrets/bif-gpr1-jenkins-password
       - COURSE=${COURSE}
       - JENKINS_SUBDIRECTORY=${COURSE}/jenkins
     secrets:
-      - bif-gpr1-internal-git-server-public-key-dsa
-      - bif-gpr1-internal-git-server-public-key-rsa
       - bif-gpr1-ssh-slave-server-private-key-rsa
       - bif-gpr1-ssh-slave-server-public-key-rsa
       - external-git-user-private-key
-      - bif-gpr1-internal-git-user-private-key
       - bif-gpr1-ssh-slave-user-public-key
-      - bif-gpr1-internal-git-user
       - bif-gpr1-jenkins-user
       - bif-gpr1-jenkins-password
     networks:
