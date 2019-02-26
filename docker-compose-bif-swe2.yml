@@ -135,7 +135,7 @@ services:
     environment: 
       - POSTGRES_USER_FILE=/run/secrets/bif-swe2-postgres-user
       - POSTGRES_PASSWORD_FILE=/run/secrets/bif-swe2-postgres-password
-      - POSTGRES_DB=Abgabe
+      - POSTGRES_DB=assignment
     secrets:
       - bif-swe2-postgres-password
       - bif-swe2-postgres-user

@@ -135,7 +135,7 @@ services:
     environment: 
       - POSTGRES_USER_FILE=/run/secrets/bif-dmdb-postgres-user
       - POSTGRES_PASSWORD_FILE=/run/secrets/bif-dmdb-postgres-password
-      - POSTGRES_DB=Abgabe
+      - POSTGRES_DB=assignment
     secrets:
       - bif-dmdb-postgres-password
       - bif-dmdb-postgres-user

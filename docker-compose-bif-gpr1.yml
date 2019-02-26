@@ -135,7 +135,7 @@ services:
     environment: 
       - POSTGRES_USER_FILE=/run/secrets/bif-gpr1-postgres-user
       - POSTGRES_PASSWORD_FILE=/run/secrets/bif-gpr1-postgres-password
-      - POSTGRES_DB=Abgabe
+      - POSTGRES_DB=assignment
     secrets:
       - bif-gpr1-postgres-password
       - bif-gpr1-postgres-user
