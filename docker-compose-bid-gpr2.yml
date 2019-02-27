@@ -7,26 +7,26 @@ services:
     expose:
       - 8080
     environment:
-      - INTERNAL_GIT_SERVER_PUBLIC_KEY_DSA_FILE=/run/secrets/bif-gpr2-internal-git-server-public-key-dsa
-      - INTERNAL_GIT_SERVER_PUBLIC_KEY_RSA_FILE=/run/secrets/bif-gpr2-internal-git-server-public-key-rsa
-      - SSH_SLAVE_SERVER_PUBLIC_KEY_RSA_FILE=/run/secrets/bif-gpr2-ssh-slave-server-public-key-rsa
-      - INTERNAL_GIT_USER_PRIVATE_KEY_FILE=/run/secrets/bif-gpr2-internal-git-user-private-key
-      - SSH_SLAVE_USER_PRIVATE_KEY_FILE=/run/secrets/bif-gpr2-ssh-slave-user-private-key
-      - INTERNAL_GIT_USER_FILE=/run/secrets/bif-gpr2-internal-git-user
-      - JENKINS_USER_FILE=/run/secrets/bif-gpr2-jenkins-user
-      - JENKINS_PASSWORD_FILE=/run/secrets/bif-gpr2-jenkins-password
+      - INTERNAL_GIT_SERVER_PUBLIC_KEY_DSA_FILE=/run/secrets/bid-gpr2-internal-git-server-public-key-dsa
+      - INTERNAL_GIT_SERVER_PUBLIC_KEY_RSA_FILE=/run/secrets/bid-gpr2-internal-git-server-public-key-rsa
+      - SSH_SLAVE_SERVER_PUBLIC_KEY_RSA_FILE=/run/secrets/bid-gpr2-ssh-slave-server-public-key-rsa
+      - INTERNAL_GIT_USER_PRIVATE_KEY_FILE=/run/secrets/bid-gpr2-internal-git-user-private-key
+      - SSH_SLAVE_USER_PRIVATE_KEY_FILE=/run/secrets/bid-gpr2-ssh-slave-user-private-key
+      - INTERNAL_GIT_USER_FILE=/run/secrets/bid-gpr2-internal-git-user
+      - JENKINS_USER_FILE=/run/secrets/bid-gpr2-jenkins-user
+      - JENKINS_PASSWORD_FILE=/run/secrets/bid-gpr2-jenkins-password
       - JENKINS_OPTS=--prefix=/${COURSE}/jenkins
       - NGINX_PROXY_SUBDIRECTORY=${COURSE}/jenkins
       - VIRTUAL_PORT=8080
     secrets:
-      - bif-gpr2-internal-git-server-public-key-dsa
-      - bif-gpr2-internal-git-server-public-key-rsa
-      - bif-gpr2-ssh-slave-server-public-key-rsa
-      - bif-gpr2-internal-git-user-private-key
-      - bif-gpr2-ssh-slave-user-private-key
-      - bif-gpr2-internal-git-user
-      - bif-gpr2-jenkins-user
-      - bif-gpr2-jenkins-password
+      - bid-gpr2-internal-git-server-public-key-dsa
+      - bid-gpr2-internal-git-server-public-key-rsa
+      - bid-gpr2-ssh-slave-server-public-key-rsa
+      - bid-gpr2-internal-git-user-private-key
+      - bid-gpr2-ssh-slave-user-private-key
+      - bid-gpr2-internal-git-user
+      - bid-gpr2-jenkins-user
+      - bid-gpr2-jenkins-password
     networks:
       - course-network
     volumes:
@@ -41,21 +41,21 @@ services:
     expose:
       - 22
     environment:
-      - SSH_SLAVE_SERVER_PRIVATE_KEY_RSA_FILE=/run/secrets/bif-gpr2-ssh-slave-server-private-key-rsa
-      - SSH_SLAVE_SERVER_PUBLIC_KEY_RSA_FILE=/run/secrets/bif-gpr2-ssh-slave-server-public-key-rsa
+      - SSH_SLAVE_SERVER_PRIVATE_KEY_RSA_FILE=/run/secrets/bid-gpr2-ssh-slave-server-private-key-rsa
+      - SSH_SLAVE_SERVER_PUBLIC_KEY_RSA_FILE=/run/secrets/bid-gpr2-ssh-slave-server-public-key-rsa
       - EXTERNAL_GIT_USER_PRIVATE_KEY_FILE=/run/secrets/external-git-user-private-key
-      - SSH_SLAVE_USER_PUBLIC_KEY_FILE=/run/secrets/bif-gpr2-ssh-slave-user-public-key
-      - JENKINS_USER_FILE=/run/secrets/bif-gpr2-jenkins-user
-      - JENKINS_PASSWORD_FILE=/run/secrets/bif-gpr2-jenkins-password
+      - SSH_SLAVE_USER_PUBLIC_KEY_FILE=/run/secrets/bid-gpr2-ssh-slave-user-public-key
+      - JENKINS_USER_FILE=/run/secrets/bid-gpr2-jenkins-user
+      - JENKINS_PASSWORD_FILE=/run/secrets/bid-gpr2-jenkins-password
       - COURSE=${COURSE}
       - JENKINS_SUBDIRECTORY=${COURSE}/jenkins
     secrets:
-      - bif-gpr2-ssh-slave-server-private-key-rsa
-      - bif-gpr2-ssh-slave-server-public-key-rsa
+      - bid-gpr2-ssh-slave-server-private-key-rsa
+      - bid-gpr2-ssh-slave-server-public-key-rsa
       - external-git-user-private-key
-      - bif-gpr2-ssh-slave-user-public-key
-      - bif-gpr2-jenkins-user
-      - bif-gpr2-jenkins-password
+      - bid-gpr2-ssh-slave-user-public-key
+      - bid-gpr2-jenkins-user
+      - bid-gpr2-jenkins-password
     networks:
       - course-network
     depends_on:
@@ -66,27 +66,27 @@ services:
     expose:
       - 22
     environment:
-      - INTERNAL_GIT_SERVER_PUBLIC_KEY_DSA_FILE=/run/secrets/bif-gpr2-internal-git-server-public-key-dsa
-      - INTERNAL_GIT_SERVER_PUBLIC_KEY_RSA_FILE=/run/secrets/bif-gpr2-internal-git-server-public-key-rsa
-      - SSH_SLAVE_SERVER_PRIVATE_KEY_RSA_FILE=/run/secrets/bif-gpr2-ssh-slave-server-private-key-rsa
-      - SSH_SLAVE_SERVER_PUBLIC_KEY_RSA_FILE=/run/secrets/bif-gpr2-ssh-slave-server-public-key-rsa
+      - INTERNAL_GIT_SERVER_PUBLIC_KEY_DSA_FILE=/run/secrets/bid-gpr2-internal-git-server-public-key-dsa
+      - INTERNAL_GIT_SERVER_PUBLIC_KEY_RSA_FILE=/run/secrets/bid-gpr2-internal-git-server-public-key-rsa
+      - SSH_SLAVE_SERVER_PRIVATE_KEY_RSA_FILE=/run/secrets/bid-gpr2-ssh-slave-server-private-key-rsa
+      - SSH_SLAVE_SERVER_PUBLIC_KEY_RSA_FILE=/run/secrets/bid-gpr2-ssh-slave-server-public-key-rsa
       - EXTERNAL_GIT_USER_PRIVATE_KEY_FILE=/run/secrets/external-git-user-private-key
-      - INTERNAL_GIT_USER_PRIVATE_KEY_FILE=/run/secrets/bif-gpr2-internal-git-user-private-key
-      - SSH_SLAVE_USER_PUBLIC_KEY_FILE=/run/secrets/bif-gpr2-ssh-slave-user-public-key
-      - INTERNAL_GIT_USER_FILE=/run/secrets/bif-gpr2-internal-git-user
-      - POSTGRES_USER_FILE=/run/secrets/bif-gpr2-postgres-user
-      - POSTGRES_PASSWORD_FILE=/run/secrets/bif-gpr2-postgres-password
+      - INTERNAL_GIT_USER_PRIVATE_KEY_FILE=/run/secrets/bid-gpr2-internal-git-user-private-key
+      - SSH_SLAVE_USER_PUBLIC_KEY_FILE=/run/secrets/bid-gpr2-ssh-slave-user-public-key
+      - INTERNAL_GIT_USER_FILE=/run/secrets/bid-gpr2-internal-git-user
+      - POSTGRES_USER_FILE=/run/secrets/bid-gpr2-postgres-user
+      - POSTGRES_PASSWORD_FILE=/run/secrets/bid-gpr2-postgres-password
     secrets:
-      - bif-gpr2-internal-git-server-public-key-dsa
-      - bif-gpr2-internal-git-server-public-key-rsa
-      - bif-gpr2-ssh-slave-server-private-key-rsa
-      - bif-gpr2-ssh-slave-server-public-key-rsa
+      - bid-gpr2-internal-git-server-public-key-dsa
+      - bid-gpr2-internal-git-server-public-key-rsa
+      - bid-gpr2-ssh-slave-server-private-key-rsa
+      - bid-gpr2-ssh-slave-server-public-key-rsa
       - external-git-user-private-key
-      - bif-gpr2-internal-git-user-private-key
-      - bif-gpr2-ssh-slave-user-public-key
-      - bif-gpr2-internal-git-user
-      - bif-gpr2-postgres-user
-      - bif-gpr2-postgres-password
+      - bid-gpr2-internal-git-user-private-key
+      - bid-gpr2-ssh-slave-user-public-key
+      - bid-gpr2-internal-git-user
+      - bid-gpr2-postgres-user
+      - bid-gpr2-postgres-password
     networks:
       - course-network
     volumes:
@@ -101,20 +101,20 @@ services:
       - 8080
       - 29418
     environment:
-      - INTERNAL_GIT_SERVER_PRIVATE_KEY_DSA_FILE=/run/secrets/bif-gpr2-internal-git-server-private-key-dsa
-      - INTERNAL_GIT_SERVER_PRIVATE_KEY_RSA_FILE=/run/secrets/bif-gpr2-internal-git-server-private-key-rsa
-      - INTERNAL_GIT_USER_PUBLIC_KEY_FILE=/run/secrets/bif-gpr2-internal-git-user-public-key
-      - INTERNAL_GIT_USER_FILE=/run/secrets/bif-gpr2-internal-git-user
-      - INTERNAL_GIT_PASSWORD_FILE=/run/secrets/bif-gpr2-internal-git-password
+      - INTERNAL_GIT_SERVER_PRIVATE_KEY_DSA_FILE=/run/secrets/bid-gpr2-internal-git-server-private-key-dsa
+      - INTERNAL_GIT_SERVER_PRIVATE_KEY_RSA_FILE=/run/secrets/bid-gpr2-internal-git-server-private-key-rsa
+      - INTERNAL_GIT_USER_PUBLIC_KEY_FILE=/run/secrets/bid-gpr2-internal-git-user-public-key
+      - INTERNAL_GIT_USER_FILE=/run/secrets/bid-gpr2-internal-git-user
+      - INTERNAL_GIT_PASSWORD_FILE=/run/secrets/bid-gpr2-internal-git-password
       - JENKINS_SUBDIRECTORY=${COURSE}/jenkins
       - NGINX_PROXY_SUBDIRECTORY=${COURSE}/gitblit
       - VIRTUAL_PORT=8080
     secrets:
-      - bif-gpr2-internal-git-server-private-key-dsa
-      - bif-gpr2-internal-git-server-private-key-rsa
-      - bif-gpr2-internal-git-user-public-key
-      - bif-gpr2-internal-git-user
-      - bif-gpr2-internal-git-password
+      - bid-gpr2-internal-git-server-private-key-dsa
+      - bid-gpr2-internal-git-server-private-key-rsa
+      - bid-gpr2-internal-git-user-public-key
+      - bid-gpr2-internal-git-user
+      - bid-gpr2-internal-git-password
     networks:
       - course-network
     volumes:
@@ -125,12 +125,12 @@ services:
     expose:
       - 5432
     environment: 
-      - POSTGRES_USER_FILE=/run/secrets/bif-gpr2-postgres-user
-      - POSTGRES_PASSWORD_FILE=/run/secrets/bif-gpr2-postgres-password
+      - POSTGRES_USER_FILE=/run/secrets/bid-gpr2-postgres-user
+      - POSTGRES_PASSWORD_FILE=/run/secrets/bid-gpr2-postgres-password
       - POSTGRES_DB=assignment
     secrets:
-      - bif-gpr2-postgres-password
-      - bif-gpr2-postgres-user
+      - bid-gpr2-postgres-password
+      - bid-gpr2-postgres-user
     networks:
       - course-network
     volumes:
@@ -141,15 +141,15 @@ services:
     expose:
       - 9000
     environment:
-      - POSTGRES_USER_FILE=/run/secrets/bif-gpr2-postgres-user
-      - POSTGRES_PASSWORD_FILE=/run/secrets/bif-gpr2-postgres-password
+      - POSTGRES_USER_FILE=/run/secrets/bid-gpr2-postgres-user
+      - POSTGRES_PASSWORD_FILE=/run/secrets/bid-gpr2-postgres-password
       - JENKINS_SUBDIRECTORY=${COURSE}/jenkins
       - NGINX_PROXY_SUBDIRECTORY=${COURSE}/assignment
       - VIRTUAL_PROTO=fastcgi
       - VIRTUAL_SUBDIRECTORY=${COURSE}-assignment
     secrets:
-      - bif-gpr2-postgres-user
-      - bif-gpr2-postgres-password
+      - bid-gpr2-postgres-user
+      - bid-gpr2-postgres-password
     networks:
       - course-network
     volumes:
@@ -158,39 +158,39 @@ services:
       - "database"
  
 secrets:
-  bif-gpr2-internal-git-server-private-key-dsa:
+  bid-gpr2-internal-git-server-private-key-dsa:
     external: true
-  bif-gpr2-internal-git-server-public-key-dsa:
+  bid-gpr2-internal-git-server-public-key-dsa:
     external: true
-  bif-gpr2-internal-git-server-private-key-rsa:
+  bid-gpr2-internal-git-server-private-key-rsa:
     external: true
-  bif-gpr2-internal-git-server-public-key-rsa:
+  bid-gpr2-internal-git-server-public-key-rsa:
     external: true
-  bif-gpr2-ssh-slave-server-private-key-rsa:
+  bid-gpr2-ssh-slave-server-private-key-rsa:
     external: true
-  bif-gpr2-ssh-slave-server-public-key-rsa:
+  bid-gpr2-ssh-slave-server-public-key-rsa:
     external: true
   external-git-user-private-key:
     external: true
-  bif-gpr2-internal-git-user-private-key:
+  bid-gpr2-internal-git-user-private-key:
     external: true
-  bif-gpr2-internal-git-user-public-key:
+  bid-gpr2-internal-git-user-public-key:
     external: true
-  bif-gpr2-ssh-slave-user-private-key:
+  bid-gpr2-ssh-slave-user-private-key:
     external: true
-  bif-gpr2-ssh-slave-user-public-key:
+  bid-gpr2-ssh-slave-user-public-key:
     external: true
-  bif-gpr2-internal-git-user:
+  bid-gpr2-internal-git-user:
     external: true
-  bif-gpr2-internal-git-password:
+  bid-gpr2-internal-git-password:
     external: true
-  bif-gpr2-postgres-user:
+  bid-gpr2-postgres-user:
     external: true
-  bif-gpr2-postgres-password:
+  bid-gpr2-postgres-password:
     external: true
-  bif-gpr2-jenkins-user:
+  bid-gpr2-jenkins-user:
     external: true
-  bif-gpr2-jenkins-password:
+  bid-gpr2-jenkins-password:
     external: true
 
 networks:
