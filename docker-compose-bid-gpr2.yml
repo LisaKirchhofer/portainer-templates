@@ -149,7 +149,6 @@ services:
       - JENKINS_SUBDIRECTORY=${COURSE}/jenkins
       - NGINX_PROXY_SUBDIRECTORY=${COURSE}/assignment
       - VIRTUAL_PROTO=fastcgi
-      - VIRTUAL_SUBDIRECTORY=${COURSE}-assignment
     secrets:
       - bid-gpr2-internal-git-user
       - bid-gpr2-internal-git-password
