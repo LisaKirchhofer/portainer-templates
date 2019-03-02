@@ -141,6 +141,8 @@ services:
     expose:
       - 9000
     environment:
+      - INTERNAL_GIT_USER_FILE=/run/secrets/bid-gpr2-internal-git-user
+      - INTERNAL_GIT_PASSWORD_FILE=/run/secrets/bid-gpr2-internal-git-password
       - POSTGRES_USER_FILE=/run/secrets/bif-oos-postgres-user
       - POSTGRES_PASSWORD_FILE=/run/secrets/bif-oos-postgres-password
       - JENKINS_SUBDIRECTORY=${COURSE}/jenkins
@@ -148,12 +150,14 @@ services:
       - VIRTUAL_PROTO=fastcgi
       - VIRTUAL_SUBDIRECTORY=${COURSE}-assignment
     secrets:
+      - bif-oos-internal-git-user
+      - bif-oos-internal-git-password
       - bif-oos-postgres-user
       - bif-oos-postgres-password
     networks:
       - course-network
     volumes:
-      - gitblit-repository-data:/gitblit-repositories
+      - application-repository-data:/gitblit-repositories
     depends_on:
       - "database"
  
