@@ -141,8 +141,8 @@ services:
     expose:
       - 9000
     environment:
-      - INTERNAL_GIT_USER_FILE=/run/secrets/bid-gpr2-internal-git-user
-      - INTERNAL_GIT_PASSWORD_FILE=/run/secrets/bid-gpr2-internal-git-password
+      - INTERNAL_GIT_USER_FILE=/run/secrets/bif-swe2-internal-git-user
+      - INTERNAL_GIT_PASSWORD_FILE=/run/secrets/bif-swe2-internal-git-password
       - POSTGRES_USER_FILE=/run/secrets/bif-swe2-postgres-user
       - POSTGRES_PASSWORD_FILE=/run/secrets/bif-swe2-postgres-password
       - JENKINS_SUBDIRECTORY=${COURSE}/jenkins
@@ -209,6 +209,8 @@ volumes:
   jenkins-slave-workspace-custom-data:
     driver: local
   gitblit-repository-data:
+    driver: local
+  application-repository-data:
     driver: local
   database-data:
     driver: local

@@ -141,8 +141,8 @@ services:
     expose:
       - 9000
     environment:
-      - INTERNAL_GIT_USER_FILE=/run/secrets/bid-gpr2-internal-git-user
-      - INTERNAL_GIT_PASSWORD_FILE=/run/secrets/bid-gpr2-internal-git-password
+      - INTERNAL_GIT_USER_FILE=/run/secrets/bif-dmdb-internal-git-user
+      - INTERNAL_GIT_PASSWORD_FILE=/run/secrets/bif-dmdb-internal-git-password
       - POSTGRES_USER_FILE=/run/secrets/bif-dmdb-postgres-user
       - POSTGRES_PASSWORD_FILE=/run/secrets/bif-dmdb-postgres-password
       - JENKINS_SUBDIRECTORY=${COURSE}/jenkins
