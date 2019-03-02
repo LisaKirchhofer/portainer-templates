@@ -210,6 +210,8 @@ volumes:
     driver: local
   gitblit-repository-data:
     driver: local
+  application-repository-data:
+    driver: local
   database-data:
     driver: local
 
