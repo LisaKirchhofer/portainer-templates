@@ -120,24 +120,8 @@ services:
     volumes:
       - gitblit-repository-data:/opt/gitblit-data/gitblit-repositories
 
-  database:
-    image: database:dev
-    expose:
-      - 5432
-    environment: 
-      - POSTGRES_USER_FILE=/run/secrets/bif-gpr1-postgres-user
-      - POSTGRES_PASSWORD_FILE=/run/secrets/bif-gpr1-postgres-password
-      - POSTGRES_DB=assignment
-    secrets:
-      - bif-gpr1-postgres-password
-      - bif-gpr1-postgres-user
-    networks:
-      - course-network
-    volumes:
-      - database-data:/var/lib/postgresql/data
-
-  application:
-    image: application:dev
+  assignment:
+    image: assignment:dev
     expose:
       - 9000
     environment:
@@ -157,10 +141,26 @@ services:
     networks:
       - course-network
     volumes:
-      - application-repository-data:/gitblit-repositories
+      - assignment-repository-data:/gitblit-repositories
     depends_on:
       - "database"
  
+  database:
+    image: database:dev
+    expose:
+      - 5432
+    environment: 
+      - POSTGRES_USER_FILE=/run/secrets/bif-gpr1-postgres-user
+      - POSTGRES_PASSWORD_FILE=/run/secrets/bif-gpr1-postgres-password
+      - POSTGRES_DB=assignment
+    secrets:
+      - bif-gpr1-postgres-password
+      - bif-gpr1-postgres-user
+    networks:
+      - course-network
+    volumes:
+      - database-data:/var/lib/postgresql/data
+
 secrets:
   bif-gpr1-internal-git-server-private-key-dsa:
     external: true
@@ -210,7 +210,7 @@ volumes:
     driver: local
   gitblit-repository-data:
     driver: local
-  application-repository-data:
+  assignment-repository-data:
     driver: local
   database-data:
     driver: local
