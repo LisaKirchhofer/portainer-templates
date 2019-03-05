@@ -130,7 +130,6 @@ services:
       - POSTGRES_USER_FILE=/run/secrets/bif-dmdb-postgres-user
       - POSTGRES_PASSWORD_FILE=/run/secrets/bif-dmdb-postgres-password
       - GITBLIT_SUBDIRECTORY=${COURSE}/gitblit
-      - JENKINS_SUBDIRECTORY=${COURSE}/jenkins
       - NGINX_PROXY_SUBDIRECTORY=${COURSE}/assignment
       - VIRTUAL_PROTO=fastcgi
     secrets:
