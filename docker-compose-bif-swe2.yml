@@ -62,7 +62,7 @@ services:
       - "gitblit"
 
   jenkins-slave:
-    image: jenkins-slave-build-essential:dev
+    image: jenkins-slave-dotnet:dev
     expose:
       - 22
     environment:
