@@ -115,6 +115,7 @@ services:
       - POSTGRES_PASSWORD_FILE=/run/secrets/bif-oos-postgres-password
       - GITBLIT_SUBDIRECTORY=${COURSE}/gitblit
       - NGINX_PROXY_SUBDIRECTORY=${COURSE}/assignment
+      - VIRTUAL_PORT=9000
       - VIRTUAL_PROTO=fastcgi
     secrets:
       - bif-oos-internal-git-user
