@@ -4,8 +4,6 @@ services:
 
   jenkins-master:
     image: jenkins-master:dev
-    expose:
-      - 8080
     environment:
       - INTERNAL_GIT_SERVER_PUBLIC_KEY_DSA_FILE=/run/secrets/bif-oos-internal-git-server-public-key-dsa
       - INTERNAL_GIT_SERVER_PUBLIC_KEY_RSA_FILE=/run/secrets/bif-oos-internal-git-server-public-key-rsa
@@ -34,37 +32,9 @@ services:
     depends_on:
       - "jenkins-job-builder"
       - "jenkins-slave"
-      - "gitblit"
-
-  jenkins-job-builder:
-    image: jenkins-job-builder:dev
-    expose:
-      - 22
-    environment:
-      - SSH_SLAVE_SERVER_PRIVATE_KEY_RSA_FILE=/run/secrets/bif-oos-ssh-slave-server-private-key-rsa
-      - SSH_SLAVE_SERVER_PUBLIC_KEY_RSA_FILE=/run/secrets/bif-oos-ssh-slave-server-public-key-rsa
-      - EXTERNAL_GIT_USER_PRIVATE_KEY_FILE=/run/secrets/external-git-user-private-key
-      - SSH_SLAVE_USER_PUBLIC_KEY_FILE=/run/secrets/bif-oos-ssh-slave-user-public-key
-      - JENKINS_USER_FILE=/run/secrets/bif-oos-jenkins-user
-      - JENKINS_PASSWORD_FILE=/run/secrets/bif-oos-jenkins-password
-      - COURSE=${COURSE}
-      - JENKINS_SUBDIRECTORY=${COURSE}/jenkins
-    secrets:
-      - bif-oos-ssh-slave-server-private-key-rsa
-      - bif-oos-ssh-slave-server-public-key-rsa
-      - external-git-user-private-key
-      - bif-oos-ssh-slave-user-public-key
-      - bif-oos-jenkins-user
-      - bif-oos-jenkins-password
-    networks:
-      - course-network
-    depends_on:
-      - "gitblit"
 
   jenkins-slave:
     image: jenkins-slave-gtest:dev
-    expose:
-      - 22
     environment:
       - INTERNAL_GIT_SERVER_PUBLIC_KEY_DSA_FILE=/run/secrets/bif-oos-internal-git-server-public-key-dsa
       - INTERNAL_GIT_SERVER_PUBLIC_KEY_RSA_FILE=/run/secrets/bif-oos-internal-git-server-public-key-rsa
@@ -92,14 +62,30 @@ services:
     volumes:
       - jenkins-slave-home-data:/home/jenkins
       - jenkins-slave-workspace-custom-data:/workspace-custom
-    depends_on:
-      - "gitblit"
   
+  jenkins-job-builder:
+    image: jenkins-job-builder:dev
+    environment:
+      - SSH_SLAVE_SERVER_PRIVATE_KEY_RSA_FILE=/run/secrets/bif-oos-ssh-slave-server-private-key-rsa
+      - SSH_SLAVE_SERVER_PUBLIC_KEY_RSA_FILE=/run/secrets/bif-oos-ssh-slave-server-public-key-rsa
+      - EXTERNAL_GIT_USER_PRIVATE_KEY_FILE=/run/secrets/external-git-user-private-key
+      - SSH_SLAVE_USER_PUBLIC_KEY_FILE=/run/secrets/bif-oos-ssh-slave-user-public-key
+      - JENKINS_USER_FILE=/run/secrets/bif-oos-jenkins-user
+      - JENKINS_PASSWORD_FILE=/run/secrets/bif-oos-jenkins-password
+      - COURSE=${COURSE}
+      - JENKINS_SUBDIRECTORY=${COURSE}/jenkins
+    secrets:
+      - bif-oos-ssh-slave-server-private-key-rsa
+      - bif-oos-ssh-slave-server-public-key-rsa
+      - external-git-user-private-key
+      - bif-oos-ssh-slave-user-public-key
+      - bif-oos-jenkins-user
+      - bif-oos-jenkins-password
+    networks:
+      - course-network
+
   gitblit:
     image: gitblit:dev
-    expose:
-      - 8080
-      - 29418
     environment:
       - INTERNAL_GIT_SERVER_PRIVATE_KEY_DSA_FILE=/run/secrets/bif-oos-internal-git-server-private-key-dsa
       - INTERNAL_GIT_SERVER_PRIVATE_KEY_RSA_FILE=/run/secrets/bif-oos-internal-git-server-private-key-rsa
@@ -122,8 +108,6 @@ services:
 
   assignment:
     image: assignment:dev
-    expose:
-      - 9000
     environment:
       - INTERNAL_GIT_USER_FILE=/run/secrets/bif-oos-internal-git-user
       - INTERNAL_GIT_PASSWORD_FILE=/run/secrets/bif-oos-internal-git-password
@@ -146,8 +130,6 @@ services:
  
   database:
     image: database:dev
-    expose:
-      - 5432
     environment: 
       - POSTGRES_USER_FILE=/run/secrets/bif-oos-postgres-user
       - POSTGRES_PASSWORD_FILE=/run/secrets/bif-oos-postgres-password
