@@ -1,0 +1,26 @@
+version: "3.1"
+
+services:
+  nginx-proxy:
+    image: nginx-proxy:dev
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock
+    networks:
+      - nginx-proxy-network
+      - bif-ss19-swe2_course-network
+      - bif-ss19-dmdb_course-network
+      - bid-ss19-gpr2_course-network
+      - bif-ss19-oos_course-network
+networks:
+  nginx-proxy-network:
+    external: true
+  bif-ss19-swe2_course-network:
+    external: true
+  bif-ss19-dmdb_course-network:
+    external: true
+  bid-ss19-gpr2_course-network:
+    external: true
+  bif-ss19-oos_course-network:
+    external: true
