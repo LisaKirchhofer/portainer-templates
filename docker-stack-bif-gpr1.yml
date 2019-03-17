@@ -27,6 +27,7 @@ services:
       - bif-gpr1-jenkins-password
     networks:
       - course-network
+      - nginx-proxy-network
     volumes:
       - jenkins-master-home-data:/var/jenkins_home
     depends_on:
@@ -103,6 +104,7 @@ services:
       - bif-gpr1-internal-git-password
     networks:
       - course-network
+      - nginx-proxy-network
     volumes:
       - gitblit-repository-data:/opt/gitblit-data/gitblit-repositories
 
@@ -124,6 +126,7 @@ services:
       - bif-gpr1-postgres-password
     networks:
       - course-network
+      - nginx-proxy-network
     volumes:
       - assignment-repository-data:/gitblit-repositories
     depends_on:
@@ -181,7 +184,9 @@ secrets:
 
 networks:
   course-network:
-     driver: overlay
+    driver: overlay
+  nginx-proxy-network:
+    external: true
 
 volumes:
   jenkins-master-home-data:
