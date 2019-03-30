@@ -26,7 +26,7 @@ services:
       - bif-dmdb-jenkins-user
       - bif-dmdb-jenkins-password
     networks:
-      - course-network
+      - grading-infrastructure-network
       - nginx-proxy-network
     volumes:
       - jenkins-master-home-data:/var/jenkins_home
@@ -59,7 +59,7 @@ services:
       - bif-dmdb-postgres-user
       - bif-dmdb-postgres-password
     networks:
-      - course-network
+      - grading-infrastructure-network
     volumes:
       - jenkins-slave-home-data:/home/jenkins
       - jenkins-slave-workspace-custom-data:/workspace-custom
@@ -83,7 +83,7 @@ services:
       - bif-dmdb-jenkins-user
       - bif-dmdb-jenkins-password
     networks:
-      - course-network
+      - grading-infrastructure-network
 
   gitblit:
     image: gitblit:dev
@@ -103,7 +103,7 @@ services:
       - bif-dmdb-internal-git-user
       - bif-dmdb-internal-git-password
     networks:
-      - course-network
+      - grading-infrastructure-network
       - nginx-proxy-network
     volumes:
       - gitblit-repository-data:/opt/gitblit-data/gitblit-repositories
@@ -125,7 +125,7 @@ services:
       - bif-dmdb-postgres-user
       - bif-dmdb-postgres-password
     networks:
-      - course-network
+      - grading-infrastructure-network
       - nginx-proxy-network
     volumes:
       - assignment-repository-data:/gitblit-repositories
@@ -142,7 +142,7 @@ services:
       - bif-dmdb-postgres-password
       - bif-dmdb-postgres-user
     networks:
-      - course-network
+      - grading-infrastructure-network
     volumes:
       - database-data:/var/lib/postgresql/data
  
@@ -183,7 +183,7 @@ secrets:
     external: true
 
 networks:
-  course-network:
+  grading-infrastructure-network:
     driver: overlay
   nginx-proxy-network:
     external: true
