@@ -3,7 +3,7 @@ version: '3.1'
 services:
 
   jenkins-master:
-    image: jenkins-master:dev
+    image: jenkins-master:test
     environment:
       - INTERNAL_GIT_SERVER_PUBLIC_KEY_DSA_FILE=/run/secrets/bif-gpr1-internal-git-server-public-key-dsa
       - INTERNAL_GIT_SERVER_PUBLIC_KEY_RSA_FILE=/run/secrets/bif-gpr1-internal-git-server-public-key-rsa
