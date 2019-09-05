@@ -1,0 +1,204 @@
+version: '3.1'
+ 
+services:
+
+  jenkins-master:
+    image: jenkins-master:test
+    environment:
+      - INTERNAL_GIT_SERVER_PUBLIC_KEY_DSA_FILE=/run/secrets/bif-psp-internal-git-server-public-key-dsa
+      - INTERNAL_GIT_SERVER_PUBLIC_KEY_RSA_FILE=/run/secrets/bif-psp-internal-git-server-public-key-rsa
+      - SSH_SLAVE_SERVER_PUBLIC_KEY_RSA_FILE=/run/secrets/bif-psp-ssh-slave-server-public-key-rsa
+      - INTERNAL_GIT_USER_PRIVATE_KEY_FILE=/run/secrets/bif-psp-internal-git-user-private-key
+      - SSH_SLAVE_USER_PRIVATE_KEY_FILE=/run/secrets/bif-psp-ssh-slave-user-private-key
+      - INTERNAL_GIT_USER_FILE=/run/secrets/bif-psp-internal-git-user
+      - JENKINS_USER_FILE=/run/secrets/bif-psp-jenkins-user
+      - JENKINS_PASSWORD_FILE=/run/secrets/bif-psp-jenkins-password
+      - JENKINS_OPTS=--prefix=/${COURSE}/jenkins
+      - NGINX_PROXY_SUBDIRECTORY=${COURSE}/jenkins
+      - VIRTUAL_PORT=8080
+    secrets:
+      - bif-psp-internal-git-server-public-key-dsa
+      - bif-psp-internal-git-server-public-key-rsa
+      - bif-psp-ssh-slave-server-public-key-rsa
+      - bif-psp-internal-git-user-private-key
+      - bif-psp-ssh-slave-user-private-key
+      - bif-psp-internal-git-user
+      - bif-psp-jenkins-user
+      - bif-psp-jenkins-password
+    networks:
+      - grading-infrastructure-network
+      - nginx-proxy-network
+    volumes:
+      - jenkins-master-home-data:/var/jenkins_home
+    depends_on:
+      - "jenkins-job-builder"
+      - "jenkins-slave"
+
+  jenkins-slave:
+    image: jenkins-slave-build-essential:dev
+    environment:
+      - INTERNAL_GIT_SERVER_PUBLIC_KEY_DSA_FILE=/run/secrets/bif-psp-internal-git-server-public-key-dsa
+      - INTERNAL_GIT_SERVER_PUBLIC_KEY_RSA_FILE=/run/secrets/bif-psp-internal-git-server-public-key-rsa
+      - SSH_SLAVE_SERVER_PRIVATE_KEY_RSA_FILE=/run/secrets/bif-psp-ssh-slave-server-private-key-rsa
+      - SSH_SLAVE_SERVER_PUBLIC_KEY_RSA_FILE=/run/secrets/bif-psp-ssh-slave-server-public-key-rsa
+      - EXTERNAL_GIT_USER_PRIVATE_KEY_FILE=/run/secrets/external-git-user-private-key
+      - INTERNAL_GIT_USER_PRIVATE_KEY_FILE=/run/secrets/bif-psp-internal-git-user-private-key
+      - SSH_SLAVE_USER_PUBLIC_KEY_FILE=/run/secrets/bif-psp-ssh-slave-user-public-key
+      - INTERNAL_GIT_USER_FILE=/run/secrets/bif-psp-internal-git-user
+      - POSTGRES_USER_FILE=/run/secrets/bif-psp-postgres-user
+      - POSTGRES_PASSWORD_FILE=/run/secrets/bif-psp-postgres-password
+    secrets:
+      - bif-psp-internal-git-server-public-key-dsa
+      - bif-psp-internal-git-server-public-key-rsa
+      - bif-psp-ssh-slave-server-private-key-rsa
+      - bif-psp-ssh-slave-server-public-key-rsa
+      - external-git-user-private-key
+      - bif-psp-internal-git-user-private-key
+      - bif-psp-ssh-slave-user-public-key
+      - bif-psp-internal-git-user
+      - bif-psp-postgres-user
+      - bif-psp-postgres-password
+    networks:
+      - grading-infrastructure-network
+    volumes:
+      - jenkins-slave-home-data:/home/jenkins
+      - jenkins-slave-workspace-custom-data:/workspace-custom
+  
+  jenkins-job-builder:
+    image: jenkins-job-builder:dev
+    environment:
+      - SSH_SLAVE_SERVER_PRIVATE_KEY_RSA_FILE=/run/secrets/bif-psp-ssh-slave-server-private-key-rsa
+      - SSH_SLAVE_SERVER_PUBLIC_KEY_RSA_FILE=/run/secrets/bif-psp-ssh-slave-server-public-key-rsa
+      - EXTERNAL_GIT_USER_PRIVATE_KEY_FILE=/run/secrets/external-git-user-private-key
+      - SSH_SLAVE_USER_PUBLIC_KEY_FILE=/run/secrets/bif-psp-ssh-slave-user-public-key
+      - JENKINS_USER_FILE=/run/secrets/bif-psp-jenkins-user
+      - JENKINS_PASSWORD_FILE=/run/secrets/bif-psp-jenkins-password
+      - COURSE=${COURSE}
+      - JENKINS_SUBDIRECTORY=${COURSE}/jenkins
+    secrets:
+      - bif-psp-ssh-slave-server-private-key-rsa
+      - bif-psp-ssh-slave-server-public-key-rsa
+      - external-git-user-private-key
+      - bif-psp-ssh-slave-user-public-key
+      - bif-psp-jenkins-user
+      - bif-psp-jenkins-password
+    networks:
+      - grading-infrastructure-network
+
+  gitblit:
+    image: gitblit:dev
+    environment:
+      - INTERNAL_GIT_SERVER_PRIVATE_KEY_DSA_FILE=/run/secrets/bif-psp-internal-git-server-private-key-dsa
+      - INTERNAL_GIT_SERVER_PRIVATE_KEY_RSA_FILE=/run/secrets/bif-psp-internal-git-server-private-key-rsa
+      - INTERNAL_GIT_USER_PUBLIC_KEY_FILE=/run/secrets/bif-psp-internal-git-user-public-key
+      - INTERNAL_GIT_USER_FILE=/run/secrets/bif-psp-internal-git-user
+      - INTERNAL_GIT_PASSWORD_FILE=/run/secrets/bif-psp-internal-git-password
+      - JENKINS_SUBDIRECTORY=${COURSE}/jenkins
+      - NGINX_PROXY_SUBDIRECTORY=${COURSE}/gitblit
+      - VIRTUAL_PORT=8080
+    secrets:
+      - bif-psp-internal-git-server-private-key-dsa
+      - bif-psp-internal-git-server-private-key-rsa
+      - bif-psp-internal-git-user-public-key
+      - bif-psp-internal-git-user
+      - bif-psp-internal-git-password
+    networks:
+      - grading-infrastructure-network
+      - nginx-proxy-network
+    volumes:
+      - gitblit-repository-data:/opt/gitblit-data/gitblit-repositories
+
+  assignment:
+    image: assignment:test
+    environment:
+      - INTERNAL_GIT_USER_FILE=/run/secrets/bif-psp-internal-git-user
+      - INTERNAL_GIT_PASSWORD_FILE=/run/secrets/bif-psp-internal-git-password
+      - POSTGRES_USER_FILE=/run/secrets/bif-psp-postgres-user
+      - POSTGRES_PASSWORD_FILE=/run/secrets/bif-psp-postgres-password
+      - GITBLIT_SUBDIRECTORY=${COURSE}/gitblit
+      - NGINX_PROXY_SUBDIRECTORY=${COURSE}/assignment
+      - VIRTUAL_PORT=9000
+      - VIRTUAL_PROTO=fastcgi
+    secrets:
+      - bif-psp-internal-git-user
+      - bif-psp-internal-git-password
+      - bif-psp-postgres-user
+      - bif-psp-postgres-password
+    networks:
+      - grading-infrastructure-network
+      - nginx-proxy-network
+    volumes:
+      - assignment-repository-data:/gitblit-repositories
+    depends_on:
+      - "database"
+ 
+  database:
+    image: database:dev
+    environment: 
+      - POSTGRES_USER_FILE=/run/secrets/bif-psp-postgres-user
+      - POSTGRES_PASSWORD_FILE=/run/secrets/bif-psp-postgres-password
+      - POSTGRES_DB=assignment
+    secrets:
+      - bif-psp-postgres-password
+      - bif-psp-postgres-user
+    networks:
+      - grading-infrastructure-network
+    volumes:
+      - database-data:/var/lib/postgresql/data
+
+secrets:
+  bif-psp-internal-git-server-private-key-dsa:
+    external: true
+  bif-psp-internal-git-server-public-key-dsa:
+    external: true
+  bif-psp-internal-git-server-private-key-rsa:
+    external: true
+  bif-psp-internal-git-server-public-key-rsa:
+    external: true
+  bif-psp-ssh-slave-server-private-key-rsa:
+    external: true
+  bif-psp-ssh-slave-server-public-key-rsa:
+    external: true
+  external-git-user-private-key:
+    external: true
+  bif-psp-internal-git-user-private-key:
+    external: true
+  bif-psp-internal-git-user-public-key:
+    external: true
+  bif-psp-ssh-slave-user-private-key:
+    external: true
+  bif-psp-ssh-slave-user-public-key:
+    external: true
+  bif-psp-internal-git-user:
+    external: true
+  bif-psp-internal-git-password:
+    external: true
+  bif-psp-postgres-user:
+    external: true
+  bif-psp-postgres-password:
+    external: true
+  bif-psp-jenkins-user:
+    external: true
+  bif-psp-jenkins-password:
+    external: true
+
+networks:
+  grading-infrastructure-network:
+    driver: overlay
+  nginx-proxy-network:
+    external: true
+
+volumes:
+  jenkins-master-home-data:
+    driver: local
+  jenkins-slave-home-data:
+    driver: local
+  jenkins-slave-workspace-custom-data:
+    driver: local
+  gitblit-repository-data:
+    driver: local
+  assignment-repository-data:
+    driver: local
+  database-data:
+    driver: local
+
